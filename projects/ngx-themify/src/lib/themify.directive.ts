@@ -41,25 +41,13 @@ export class ThemifyDirective implements OnInit, OnDestroy{
 
 
   updateTheme(theme: Theme) {
-    if (!this.scoped) {
-      console.log("Update Theme", theme)
-      const element = this._document.body;
-      // project properties onto the element
-      for (const key in theme.properties) {
-        element.style.setProperty(key, theme.properties[key]);
-      }
-      element.classList.remove(`${this._currentTheme}-theme`);
-      element.classList.add(`${theme.name}-theme`);
-    } else {
-      console.log("Update Theme", theme)
-      const element = this._elementRef.nativeElement;
-      // project properties onto the element
-      for (const key in theme.properties) {
-        this.renderer.setStyle(element, key, theme.properties[key]);
-      }
-      this.renderer.removeClass(element, `${this._currentTheme}-theme`);
-      this.renderer.addClass(element, `${theme.name}-theme`)
+    console.log("Update Theme", theme);
+    const element = this.getElement();
+    for (const key in theme.properties) {
+      this.renderer.setStyle(element, key, theme.properties[key]);
     }
+    this.renderer.removeClass(element, `${this._currentTheme}-theme`);
+    this.renderer.addClass(element, `${theme.name}-theme`);
     this._currentTheme = theme.name;
   }
 
