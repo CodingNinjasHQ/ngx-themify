@@ -1,4 +1,4 @@
-import {Directive, ElementRef, Inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {Directive, ElementRef, Inject, Input, OnDestroy, OnInit, Renderer2} from '@angular/core';
 import {Subject} from "rxjs";
 import {ThemifyService} from "./themify.service";
 import {DOCUMENT} from "@angular/common";
@@ -16,6 +16,7 @@ export class ThemifyDirective implements OnInit, OnDestroy{
   private _currentTheme: string;
 
   constructor(
+    private renderer: Renderer2,
     private _elementRef: ElementRef,
     private _themeService: ThemifyService,
     @Inject(DOCUMENT) private _document: any
@@ -40,16 +41,13 @@ export class ThemifyDirective implements OnInit, OnDestroy{
 
 
   updateTheme(theme: Theme) {
-    console.log("Update Theme", theme)
+    console.log("Update Theme", theme);
     const element = this.getElement();
-
-    // project properties onto the element
     for (const key in theme.properties) {
-      element.style.setProperty(key, theme.properties[key]);
+      this.renderer.setStyle(element, key, theme.properties[key]);
     }
-
-    element.classList.remove(`${this._currentTheme}-theme`);
-    element.classList.add(`${theme.name}-theme`);
+    this.renderer.removeClass(element, `${this._currentTheme}-theme`);
+    this.renderer.addClass(element, `${theme.name}-theme`);
     this._currentTheme = theme.name;
   }
 
