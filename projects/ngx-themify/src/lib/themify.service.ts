@@ -40,7 +40,6 @@ export class ThemifyService {
   }
 
   public applyTheme(name: string) {
-    console.log("Apply Theme", name);
     const theme = this._themesStore.get(name);
     if (theme) {
       this.activeTheme = theme;
