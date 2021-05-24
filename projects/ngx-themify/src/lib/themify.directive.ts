@@ -24,7 +24,6 @@ export class ThemifyDirective implements OnInit, OnDestroy{
 
   ngOnInit() {
     const activeTheme = this._themeService.getActiveTheme();
-    console.log("Directive Init Theme", activeTheme);
     if (activeTheme) {
       this.updateTheme(activeTheme);
     }

@@ -16,7 +16,6 @@ export class ThemifyService {
 
 
   constructor(@Inject('THEME_CONFIG') private config: ThemeConfig) {
-    console.log("Inject Theme", config);
     const themes = config.themes || []
     const defaultThemeName = config.defaultTheme;
     for (const theme of themes) {
