@@ -46,7 +46,6 @@ export class ThemifyDirective implements OnInit, OnDestroy{
       this.renderer.removeClass(element, `${this._currentTheme}-theme`);
       this.renderer.addClass(element, `${theme.name}-theme`);
       for (const key in theme.properties) {
-        this.renderer.removeStyle(element, key);
         this.renderer.setStyle(element, key, theme.properties[key], 2);
       }
       this._currentTheme = theme.name;
