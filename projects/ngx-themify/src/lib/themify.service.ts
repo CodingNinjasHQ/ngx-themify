@@ -16,7 +16,6 @@ export class ThemifyService {
 
 
   constructor(@Inject('THEME_CONFIG') private config: ThemeConfig) {
-    console.log("Inject Theme", config);
     const themes = config.themes || []
     const defaultThemeName = config.defaultTheme;
     for (const theme of themes) {
@@ -40,7 +39,6 @@ export class ThemifyService {
   }
 
   public applyTheme(name: string) {
-    console.log("Apply Theme", name);
     const theme = this._themesStore.get(name);
     if (theme) {
       this.activeTheme = theme;

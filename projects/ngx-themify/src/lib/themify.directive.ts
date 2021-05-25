@@ -19,12 +19,11 @@ export class ThemifyDirective implements OnInit, OnDestroy{
     private renderer: Renderer2,
     private _elementRef: ElementRef,
     private _themeService: ThemifyService,
-    @Inject(DOCUMENT) private _document: any
+    @Inject(DOCUMENT) private _document: any,
   ) {}
 
   ngOnInit() {
     const activeTheme = this._themeService.getActiveTheme();
-    console.log("Directive Init Theme",activeTheme)
     if (activeTheme) {
       this.updateTheme(activeTheme);
     }
@@ -41,14 +40,16 @@ export class ThemifyDirective implements OnInit, OnDestroy{
 
 
   updateTheme(theme: Theme) {
-    console.log("Update Theme", theme);
     const element = this.getElement();
-    for (const key in theme.properties) {
-      this.renderer.setStyle(element, key, theme.properties[key]);
+
+    if(element && element.style) {
+      this.renderer.removeClass(element, `${this._currentTheme}-theme`);
+      this.renderer.addClass(element, `${theme.name}-theme`);
+      for (const key in theme.properties) {
+        this.renderer.setStyle(element, key, theme.properties[key], 2);
+      }
+      this._currentTheme = theme.name;
     }
-    this.renderer.removeClass(element, `${this._currentTheme}-theme`);
-    this.renderer.addClass(element, `${theme.name}-theme`);
-    this._currentTheme = theme.name;
   }
 
   /**
